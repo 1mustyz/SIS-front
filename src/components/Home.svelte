@@ -3,10 +3,14 @@
 	import Vertical from "../shared/Vertical.svelte"
 	import Nav from "./Nav.svelte"
 	import MainContent from "./MainContent.svelte";
+
+	export let active
+
+	let activeHome = active
 </script>
 
 <div class="main">
-	<Nav/>
+	<Nav activeHome/>
 	<Vertical/>
 
 	

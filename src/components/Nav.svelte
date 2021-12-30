@@ -1,5 +1,12 @@
 <script>
     import FaHome from 'svelte-icons/fa/FaHome.svelte'
+	export let activeHome = false
+    export let activeAddStudent = false
+    export let activeProfile = false
+    export let activeViewStudent = false
+    let active = false
+
+    console.log(active)
 </script>
 
 <main>
@@ -8,55 +15,54 @@
     </div>
 
     <div class="nav">
-        <div class="link">
-            <div class="icon">
+        <a class="link" class:active={activeHome == true} href="http://localhost:5000">
+            <div class="icon" class:active-color={activeHome == true}>
                 <FaHome/>
             </div>
-            <p class="text">
+            <p class="text" class:active-color={activeHome == true}>
                 Dashboard
             </p>
 
-        </div>
+        </a>
 
-        <div class="link">
-            <div class="icon">
+        <a class="link" class:active={activeProfile} href="http://localhost:5000/staff-profile">
+            <div class="icon" class:active-color={activeProfile}>
                 <FaHome/>
             </div>
-            <p class="text">
+            <p class="text" class:active-color={activeProfile}>
                 Profile
             </p>
 
-        </div>
-
-        <div class="link">
-            <div class="icon">
+        </a>
+        <a class="link" class:active={activeAddStudent} href="http://localhost:5000/add-student">
+            <div class="icon" class:active-color={activeAddStudent}>
                 <FaHome/>
             </div>
-            <p class="text">
+            <p class="text" class:active-color={activeAddStudent}>
                 Add Student
             </p>
 
-        </div>
+        </a>
 
-        <div class="link">
-            <div class="icon">
+        <a class="link" class:active={activeViewStudent} href="http://localhost:5000/view-student">
+            <div class="icon" class:active-color={activeViewStudent}>
                 <FaHome/>
             </div>
-            <p class="text">
+            <p class="text" class:active-color={activeViewStudent}>
                 View Student
             </p>
 
-        </div>
+        </a>
 
-        <div class="link">
-            <div class="icon">
+        <a class="link" class:active={active} href="http://localhost:5000/login">
+            <div class="icon" class:active-color={active}>
                 <FaHome/>
             </div>
-            <p class="text">
+            <p class="text" class:active-color={active}>
                 Logout
             </p>
 
-        </div>
+        </a>
     </div>
 </main>
 
@@ -106,5 +112,13 @@
     .text {
         color: #7d8ba5;
 
+    }
+
+    .active {
+        background-color: white;
+        color: #3B76EF;
+    }
+    .active-color {
+        color: #3B76EF;
     }
 </style>

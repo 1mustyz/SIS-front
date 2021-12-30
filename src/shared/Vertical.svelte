@@ -7,7 +7,7 @@
 <style>
     .vl {
       border-left: 6px solid #f8dbdd;
-      height: 100vh;
+      min-height: 100vh;
     }
 </style>
    

@@ -24,7 +24,7 @@
             <FaFacebookMessenger />
         </div>
     
-        <Avatar>
+        <Avatar type="small">
             <img class="img-avatar" src="../musty-avatar.jpg" alt="">
         </Avatar>
     </div>
