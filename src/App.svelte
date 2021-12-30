@@ -1,30 +1,22 @@
 <script>
 	import "smelte/src/tailwind.css" ;
-	import Header from "./components/Header.svelte";
-	import Vertical from "./shared/Vertical.svelte"
-	import Nav from "./components/Nav.svelte"
-	import MainContent from "./components/MainContent.svelte";
+	import router from "page"
+	import Home from "./components/Home.svelte"
+	import ViewStudent from "./components/ViewStudent.svelte";
+	import LoginPage from "./components/LoginPgae.svelte";
+	let page
+
+	router('/', () => page = Home)
+	router('/view-student', () => page = ViewStudent)
+	router('/login', () => page = LoginPage)
+
+router.start()
 </script>
 
 <main>
-	<Nav/>
-	<Vertical/>
-
-	<div class="align">
-		<Header/>
-		<MainContent/>
-	</div>
+	<svelte:component this={page} />
 </main>
 
 <style>
-	main {
-		display: flex;
-		flex-direction: row;
-		align-items: flex-start;
-		background-color: #F7FAFF;
-	}
-
-	.align {
-		max-width: 100vw;
-	}
+		
 </style>
