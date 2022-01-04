@@ -4,7 +4,7 @@
     import {Button,Icon} from "smelte";
     import Avatar from "../shared/Avatar.svelte";
 
-
+    
     let fields = {firstName:"", surname:"", otherName:"", idNumber:"", gender:"", department:"", faculty:"", state:"", level:""}
 </script>
 
