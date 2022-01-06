@@ -9,14 +9,19 @@
 	import StudentProfile from "./components/StudentProfile.svelte";
 	
 	
-	let page
+	let page, params
 
 	router('/', () => page = Home)
 	router('/view-student', () => page = ViewStudent)
 	router('/login', () => page = LoginPage)
 	router('/add-student', () => page = AddStudent)
 	router('/staff-profile', () => page = StaffProfile)
-	router('/student-profile', () => page = StudentProfile)
+	router('/student-profile/:username',
+			(ctx, next) => {
+			params = ctx.params
+			next()
+		},
+	 () => page = StudentProfile)
 
 	let active = true
 
@@ -24,7 +29,7 @@ router.start()
 </script>
 
 <main>
-	<svelte:component this={page} />
+	<svelte:component this={page} params="{params}" />
 </main>
 
 <style>

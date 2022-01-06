@@ -3,9 +3,34 @@
     import { TextField } from "smelte";
     import {Button,Icon} from "smelte";
     import Avatar from "../shared/Avatar.svelte";
+	import { onMount } from 'svelte';
 
+
+    export let params
+    $: data = []
+    const username = params.username.split('-').join('/')
+
+    console.log(data)
     
-    let fields = {firstName:"", surname:"", otherName:"", idNumber:"", gender:"", department:"", faculty:"", state:"", level:""}
+    $: fields = {firstName:data.firstName, surname:data.lastName, otherName:data.otherName, username:data.username, gender:data.gender, department:data.department, faculty:data.faculty, state:data.state, level:data.level}
+    let image = ''
+   
+
+
+    onMount(async () => {
+    const response = await fetch(`https://smart-identificatio.herokuapp.com/admin/get-single-student/?username=${username}`)
+    let res = await response.json()
+    data = res.message
+    console.log(data)
+    try {
+        
+        image = 'https://smart-identificatio.herokuapp.com/' + data.image.split('/').splice(1).join('/')
+    } catch (error) {
+        console.log(error)
+    }
+
+    console.log(image)
+  })
 </script>
 
 	
@@ -14,7 +39,7 @@
 
         <div class="profile-pic">
             <Avatar type="medium">
-                <img class="img-avat" src="../musty-avatar.jpg" alt="">
+                <img class="img-avat" src={image} alt="">
             </Avatar>
             <TextField  outlined type="file"  />
             <Button color="primary" light flat >set</Button>
@@ -40,7 +65,7 @@
 
             <div>
 
-                <TextField label="ID Number" outlined hint="ID" disabled bind:value={fields.idNumber}/>
+                <TextField label="ID Number" outlined hint="ID" disabled bind:value={fields.username}/>
             </div>
 
             <div>

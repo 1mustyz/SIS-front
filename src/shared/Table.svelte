@@ -1,5 +1,6 @@
 <script>
     import {Button,Icon} from "smelte";
+	  import router from "page"
 
   export let student
   $: allStudent = student.message
@@ -40,6 +41,11 @@
 
     }
 
+    const viewStudent = (usernam) => {
+      let username = usernam.split('/').join('-')
+      router.redirect(`/student-profile/${username}`)
+    }
+
 </script>
 
 <main>
@@ -57,7 +63,7 @@
           </tr>
         </thead>
         <tbody>
-          
+
           {#each allStudent as std, ind }
           <tr>
             <td class:de-active={std.active == false}>{ind + 1}</td>
@@ -65,7 +71,7 @@
             <td class="sn" class:de-active={std.active == false}>{std.firstName + ' ' + std.lastName}</td>
             <td class:de-active={std.active == false}>{std.level}</td>
             <td class="sn" class:de-active={std.active == false}>{std.department}</td>
-            <td class:de-active={std.active == false}><Button color="primary" light flat >view student</Button></td>
+            <td class:de-active={std.active == false}><Button color="primary" light flat on:click={() => viewStudent(std.username)}>view student</Button></td>
 
             {#if std.active}
               <td><Button color="blue" dark flat on:click={() => setStatus(std.username, std.active)}>active</Button></td>
