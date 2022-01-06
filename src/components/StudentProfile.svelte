@@ -4,11 +4,14 @@
     import {Button,Icon} from "smelte";
     import Avatar from "../shared/Avatar.svelte";
 	import { onMount } from 'svelte';
+    
+    import QRCode from "../shared/QRJS.svelte"
 
 
     export let params
     $: data = []
     const username = params.username.split('-').join('/')
+    const secret = `https://cocky-dijkstra-9add3b.netlify.app/view-student/${params.username}`
 
     console.log(data)
     
@@ -18,7 +21,7 @@
 
 
     onMount(async () => {
-    const response = await fetch(`https://smart-identificatio.herokuapp.com/admin/get-single-student/?username=${username}`)
+    const response = await fetch(`https://smart-identificatio.herokuapp.com/admin/student-profile/?username=${username}`)
     let res = await response.json()
     data = res.message
     console.log(data)
@@ -98,14 +101,20 @@
                 <Button color="primary" dark block >Print ID</Button>
             </div>
         </form>
-    </div>
 
+        
+        <div class="qr">
+            <h4>Scan me</h4>
+            <QRCode codeValue={secret} squareSize=200/>
+        
+        </div>
+    </div>
 
 <style>
     
 
     .align {
-		max-width: 90vw;
+		max-width: 100vw;
         display: flex;
 		flex-direction: row;
 		background-color: #F7FAFF;
@@ -149,5 +158,15 @@
         margin-bottom: 2rem; */
         background-color: white;
         border-radius: 10px;
+    }
+
+    .qr {
+        margin-left: 3rem;
+    }
+
+    .qr > h4 {
+        text-align: center;
+        margin-bottom: 0.5rem;
+        padding: 0.5rem;
     }
 </style>
