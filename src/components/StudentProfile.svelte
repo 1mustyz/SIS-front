@@ -11,7 +11,7 @@
     export let params
     $: data = []
     const username = params.username.split('-').join('/')
-    const secret = `https://cocky-dijkstra-9add3b.netlify.app/view-student/${params.username}`
+    const secret = `https://cocky-dijkstra-9add3b.netlify.app/student-profile/${params.username}`
 
     console.log(data)
     
