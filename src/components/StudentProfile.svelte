@@ -11,7 +11,7 @@
     export let params
     $: data = []
     const username = params.username.split('-').join('/')
-    const secret = `https://sis-front-jmvoajwl7-1mustyz.vercel.app/student-profile/${params.username}`
+    const secret = `https://sis-front-eight.vercel.app/student-profile/${params.username}`
 
     console.log(data)
     
