@@ -127,7 +127,7 @@ console.log('hello')
             },
             body: JSON.stringify(fields)
             });
-            const content = await rawResponse.json(fields);
+            const content = await rawResponse.json();
 
             console.log(content)
             if(content.success == true){

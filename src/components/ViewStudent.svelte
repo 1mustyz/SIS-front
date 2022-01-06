@@ -4,8 +4,17 @@
 	import Nav from "./Nav.svelte"
 	import MainContent from "./MainContent.svelte";
 	import Table from "../shared/Table.svelte"
-
+	import { onMount } from 'svelte';
+	import { students } from "../stores";
 	export let active
+
+
+	
+	async function getStudent(){
+		const res = await fetch(`https://smart-identificatio.herokuapp.com/admin/get-all-student`);
+		return student = await res.json();
+	}
+	let student = getStudent()
 
     let activeViewStudent = active
 </script>
@@ -17,10 +26,16 @@
 	
     <div class="align">
         <Header />
-        <Table />
+
+		{#await student}
+			<p>...waiting</p>
+		{:then}
+        	<Table {student} />
+		{:catch error}
+			<p style="color: red">{error.message}</p>
+		{/await}
     </div>
 </div>
-
 
 <style>
     .main {

@@ -1,4 +1,44 @@
 <script>
+    import {Button,Icon} from "smelte";
+
+  export let student
+  $: allStudent = student.message
+    
+
+    const setStatus = async (username, activate)=>{
+      console.log(username,activate)
+      let active = !activate
+
+      try {
+
+      const rawResponse = await fetch('https://smart-identificatio.herokuapp.com/admin/activate-deactivate-student', {
+      method: 'PUT',
+      headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({username:username, active:active})
+      });
+      const content = await rawResponse.json();
+
+      if(content.success == true){
+        console.log(content)
+        async function getStudent(){
+          const res = await fetch(`https://smart-identificatio.herokuapp.com/admin/get-all-student`);
+          return student = await res.json();
+        }
+	      student = await getStudent()
+      }
+      else {
+      console.log('incorrect username or password')
+
+      }
+          
+      } catch (error) {
+          console.log(error)
+      }
+
+    }
 
 </script>
 
@@ -6,73 +46,36 @@
     <table class="zigzag">
         <thead>
           <tr>
-            <th class="header">Player</th>
-            <th class="header">Goals</th>
-            <th class="header">First</th>
-            <th class="header">Latest</th>
+            <th class="header">S/N</th>
+            <th class="header">ID Number</th>
+            <th class="header">Name</th>
+            <th class="header">Level</th>
+            <th class="header">Department</th>
+            <th class="header">View</th>
+            <th class="header">Status</th>
+
           </tr>
         </thead>
         <tbody>
+          
+          {#each allStudent as std, ind }
           <tr>
-            <td>Wayne Rooney</td>
-            <td>53</td>
-            <td>06 Sep 2003</td>
-            <td>27 Jun 2016</td>
+            <td class:de-active={std.active == false}>{ind + 1}</td>
+            <td class:de-active={std.active == false}>{std.username}</td>
+            <td class="sn" class:de-active={std.active == false}>{std.firstName + ' ' + std.lastName}</td>
+            <td class:de-active={std.active == false}>{std.level}</td>
+            <td class="sn" class:de-active={std.active == false}>{std.department}</td>
+            <td class:de-active={std.active == false}><Button color="primary" light flat >view student</Button></td>
+
+            {#if std.active}
+              <td><Button color="blue" dark flat on:click={() => setStatus(std.username, std.active)}>active</Button></td>
+            {:else }
+              <td class:de-active={std.active == false}><Button color="primary" light flat on:click={() => setStatus(std.username, std.active)}>Deactivated</Button></td>
+            {/if}
+
           </tr>
-          <tr>
-            <td>Bobby Charlton</td>
-            <td>49</td>
-            <td>19 Apr 1958</td>
-            <td>20 May 1970</td>
-          </tr>
-          <tr>
-            <td>Gary Lineker</td>
-            <td>48</td>
-            <td>26 Mar 1985</td>
-            <td>29 Apr 1992</td>
-          </tr>
-          <tr>
-            <td>Jimmy Greaves</td>
-            <td>44</td>
-            <td>17 May 1959</td>
-            <td>24 May 1967</td>
-          </tr>
-          <tr>
-            <td>Michael Owen </td>
-            <td>40</td>
-            <td>27 May 1998</td>
-            <td>12 Sep 2007</td>
-          </tr>
-          <tr>
-            <td>Alan Shearer</td>
-            <td>30</td>
-            <td>19 Feb 1992</td>
-            <td>20 Jun 2000</td>
-          </tr>
-          <tr>
-            <td>Tom Finney</td>
-            <td>30</td>
-            <td>28 Sep 1946</td>
-            <td>04 Oct 1958</td>
-          </tr>
-          <tr>
-            <td>Nat Lofthouse</td>
-            <td>30</td>
-            <td>22 Nov 1950</td>
-            <td>22 Oct 1958</td>
-          </tr>
-          <tr>
-            <td>Vivian Woodward</td>
-            <td>29</td>
-            <td>14 Feb 1903</td>
-            <td>13 Mar 1911</td>
-          </tr>
-          <tr>
-            <td>Frank Lampard</td>
-            <td>29</td>
-            <td>20 Aug 2003</td>
-            <td>29 May 2013</td>
-          </tr>
+          {/each}
+          
         </tbody>
       </table>
 </main>
@@ -98,7 +101,7 @@ table {
       text-align:right;
     }
   td {
-    background-color:#eee;    
+    background-color:rgb(224, 217, 217);    
   }
   th {
     background-color:#009;
@@ -115,6 +118,14 @@ table {
   thead tr,
   tbody tr:nth-child(even) {
     transform:rotate(-0.5deg);
+  }
+  
+  .sn {
+    width: 80%;
+  }
+  .de-active {
+    background-color: #eee;
+    color: rgb(121, 110, 110);
   }
   
 </style>
