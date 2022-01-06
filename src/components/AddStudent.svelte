@@ -10,8 +10,8 @@
 
 	let activeAddStudent = active
 
-    let fields = {firstName:"", lastName:"", otherName:"", idNumber:"", gender:"", department:"", faculty:"", state:"", level:"", email:"", phone:"", course:"", address:"", role:"student", dob:""}
-    let errors = {firstName:"", lastName:"", otherName:"", idNumber:"", gender:"", department:"", faculty:"", state:"", level:"", email:"", phone:"", course:"", address:"", role:"", dob:""}
+    let fields = {firstName:"", lastName:"", otherName:"", username:"", gender:"", department:"", faculty:"", state:"", level:"", email:"", phone:"", course:"", address:"", role:"student", dob:""}
+    let errors = {firstName:"", lastName:"", otherName:"", username:"", gender:"", department:"", faculty:"", state:"", level:"", email:"", phone:"", course:"", address:"", role:"", dob:""}
     let valid = false
 
     const submitHandler = async () => {
@@ -39,11 +39,11 @@ console.log('hello')
             errors.otherName = ''
         }
 
-        if(fields.idNumber.trim().length < 1){
+        if(fields.username.trim().length < 1){
             valid = false
-            errors.idNumber = 'ID Number must not be empty'
+            errors.username = 'ID Number must not be empty'
         }else{
-            errors.idNumber = ''
+            errors.username = ''
         }
 
         if(fields.faculty.trim().length < 1){
@@ -127,7 +127,7 @@ console.log('hello')
             },
             body: JSON.stringify(fields)
             });
-            const content = await rawResponse.json(data);
+            const content = await rawResponse.json(fields);
 
             console.log(content)
             if(content.success == true){
@@ -143,7 +143,6 @@ console.log('hello')
                 console.log(error)
             }
             
-            console.log(fields)
         }
     }
 </script>
