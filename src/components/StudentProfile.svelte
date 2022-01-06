@@ -21,7 +21,7 @@
 
 
     onMount(async () => {
-    const response = await fetch(`https://smart-identificatio.herokuapp.com/admin/student-profile/?username=${username}`)
+    const response = await fetch(`https://smart-identificatio.herokuapp.com/admin/get-single-student/?username=${username}`)
     let res = await response.json()
     data = res.message
     console.log(data)
