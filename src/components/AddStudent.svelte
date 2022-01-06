@@ -10,11 +10,11 @@
 
 	let activeAddStudent = active
 
-    let fields = {firstName:"", surname:"", otherName:"", idNumber:"", gender:"", department:"", faculty:"", state:"", level:""}
-    let errors = {firstName:"", surname:"", otherName:"", idNumber:"", gender:"", department:"", faculty:"", state:"", level:""}
+    let fields = {firstName:"", lastName:"", otherName:"", idNumber:"", gender:"", department:"", faculty:"", state:"", level:"", email:"", phone:"", course:"", address:"", role:"student", dob:""}
+    let errors = {firstName:"", lastName:"", otherName:"", idNumber:"", gender:"", department:"", faculty:"", state:"", level:"", email:"", phone:"", course:"", address:"", role:"", dob:""}
     let valid = false
 
-    const submitHandler = () => {
+    const submitHandler = async () => {
         valid = true
 console.log('hello')
        
@@ -25,11 +25,11 @@ console.log('hello')
             errors.firstName = ''
         }
 
-        if(fields.surname.trim().length < 1){
+        if(fields.lastName.trim().length < 1){
             valid = false
-            errors.surname = 'surname must not be empty'
+            errors.lastName = ' must not be empty'
         }else{
-            errors.surname = ''
+            errors.lastName= 'Last Name must not be empty'
         }
 
         if(fields.otherName.trim().length < 1){
@@ -80,7 +80,69 @@ console.log('hello')
         }else{
             errors.level = ''
         }
+
+        if(fields.email.trim().length < 1){
+            valid = false
+            errors.email = 'Email must not be empty'
+        }else{
+            errors.email = ''
+        }
+
+        if(fields.phone.trim().length < 1){
+            valid = false
+            errors.phone = 'Phone must not be empty'
+        }else{
+            errors.phone = ''
+        }
+
+        if(fields.course.trim().length < 1){
+            valid = false
+            errors.course = 'Course must not be empty'
+        }else{
+            errors.course = ''
+        }
+
+        if(fields.dob.trim().length < 1){
+            valid = false
+            errors.dob = 'DOB must not be empty'
+        }else{
+            errors.dob = ''
+        }
+
+        if(fields.address.trim().length < 1){
+            valid = false
+            errors.address = 'Address must not be empty'
+        }else{
+            errors.address = ''
+        }
         if(valid){
+             try {
+
+            console.log(fields)    
+            const rawResponse = await fetch('https://smart-identificatio.herokuapp.com/admin/register', {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(fields)
+            });
+            const content = await rawResponse.json(data);
+
+            console.log(content)
+            if(content.success == true){
+
+               
+            }
+            else {
+            console.log('incorrect username or password')
+
+            }
+                
+            } catch (error) {
+                console.log(error)
+            }
+            
             console.log(fields)
         }
     }
@@ -95,50 +157,76 @@ console.log('hello')
         <Header/>
         <form action="" class="form" >
             <div>
-                <TextField label="First Name" outlined hint="First Name" bind:value={fields.firstName} />
+                <TextField required label="First Name" outlined hint="First Name" bind:value={fields.firstName} />
 
             </div>
 
             <div>
 
-                <TextField label="Surname" outlined hint="Surname" bind:value={fields.surname}/>
+                <TextField required label="Surname" outlined hint="Surname" bind:value={fields.lastName}/>
             </div>
 
             <div>
 
-                <TextField label="Other Name" outlined hint="Other Name" bind:value={fields.otherName}/>
+                <TextField required label="Other Name" outlined hint="Other Name" bind:value={fields.otherName}/>
             </div>
 
             <div>
 
-                <TextField label="ID Number" outlined hint="ID" bind:value={fields.idNumber}/>
+                <TextField required label="ID Number" outlined hint="ID" bind:value={fields.username}/>
             </div>
 
             <div>
 
-                <TextField label="Gender" outlined hint="Male" bind:value={fields.gender}/>
+                <TextField required label="Gender" outlined hint="Male" bind:value={fields.gender}/>
             </div>
 
             <div>
 
-                <TextField label="State" outlined hint="State" bind:value={fields.state}/>
+                <TextField required label="State" outlined hint="State" bind:value={fields.state}/>
             </div>
 
             <div>
 
-                <TextField label="Department" outlined hint="Department" bind:value={fields.department}/>
+                <TextField required label="Department" outlined hint="Department" bind:value={fields.department}/>
             </div>
 
             <div>
 
-                <TextField label="Faculty" outlined hint="Faculty" bind:value={fields.faculty}/>
+                <TextField required label="Faculty" outlined hint="Faculty" bind:value={fields.faculty}/>
             </div>
 
             <div>
 
-                <TextField label="Level" outlined hint="Level" bind:value={fields.level}/>
+                <TextField required label="Level" outlined hint="Level" bind:value={fields.level}/>
             </div>
 
+            <div>
+
+                <TextField required label="DOB" outlined hint="dob" bind:value={fields.dob}/>
+            </div>
+
+            <div>
+
+                <TextField required label="Course" outlined hint="course" bind:value={fields.course}/>
+            </div>
+
+            <div>
+
+                <TextField required label="Address" outlined hint="address" bind:value={fields.address}/>
+            </div>
+
+            <div>
+
+                <TextField required label="Phone" outlined hint="phone" bind:value={fields.phone}/>
+            </div>
+
+            <div>
+
+                <TextField required label="email" outlined hint="email" bind:value={fields.email}/>
+            </div>
+
+            
             <div>
 
                 <Button color="primary" dark block on:click={submitHandler}>ADD STUDENT</Button>

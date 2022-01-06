@@ -7,11 +7,24 @@
     import {Button,Icon} from "smelte";
     import Avatar from "../shared/Avatar.svelte";
 
+    import {user} from "../stores"
+
+    let image
+    let fields = {firstName:'', surname:'', otherName:'', lastName:'', email:'', phone:'', role:''}
+    if($user != null){
+
+        const img = 'https://smart-identificatio.herokuapp.com/' + $user.newUser.image.split('/').splice(1).join('/')
+        image = img
+        console.log(image)
+
+        fields = {firstName:$user.newUser.firstName, lastName:$user.newUser.lastName, otherName:$user.newUser.otherName, username:$user.newUser.username, email:$user.newUser.email, phone:$user.newUser.phone, role:$user.newUser.role}
+    }
+
     export let active
 
     let activeProfile = active
 
-    let fields = {firstName:"", surname:"", otherName:"", idNumber:"", gender:"", department:"", faculty:"", state:"", level:""}
+    
 </script>
 
 <div class="main">
@@ -24,7 +37,7 @@
 
         <div class="profile-pic">
             <Avatar type="medium">
-                <img class="img-avat" src="../musty-avatar.jpg" alt="">
+                <img class="img-avat" src={image} alt="">
             </Avatar>
             <TextField  outlined type="file"  />
             <Button color="primary" light flat >set</Button>
@@ -40,7 +53,7 @@
 
             <div>
 
-                <TextField label="Surname" outlined hint="Surname" disabled bind:value={fields.surname}/>
+                <TextField label="Surname" outlined hint="Surname" disabled bind:value={fields.lastName}/>
             </div>
 
             <div>
@@ -50,22 +63,22 @@
 
             <div>
 
-                <TextField label="ID Number" outlined hint="ID" disabled bind:value={fields.idNumber}/>
+                <TextField label="ID Number" outlined hint="ID" disabled bind:value={fields.username}/>
             </div>
 
             <div>
 
-                <TextField label="Gender" outlined hint="Male" disabled bind:value={fields.gender}/>
+                <TextField label="Gender" outlined hint="Male" disabled bind:value={fields.email}/>
             </div>
 
             <div>
 
-                <TextField label="State" outlined hint="State" disabled bind:value={fields.state}/>
+                <TextField label="State" outlined hint="State" disabled bind:value={fields.phone}/>
             </div>
 
             <div>
 
-                <TextField label="Department" outlined hint="Department" disabled bind:value={fields.department}/>
+                <TextField label="Department" outlined hint="Department" disabled bind:value={fields.role}/>
             </div>
 
            

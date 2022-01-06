@@ -4,6 +4,15 @@
     import FaFacebookMessenger from 'svelte-icons/fa/FaFacebookMessenger.svelte'
 
     import Avatar from "../shared/Avatar.svelte";
+    import {user} from "../stores"
+
+    let image
+    if($user != null){
+
+        const img = 'https://smart-identificatio.herokuapp.com/' + $user.newUser.image.split('/').splice(1).join('/')
+        image = img
+        console.log(image)
+    }
 </script>
 
 <header>
@@ -25,7 +34,7 @@
         </div>
     
         <Avatar type="small">
-            <img class="img-avatar" src="../musty-avatar.jpg" alt="">
+            <img class="img-avatar" src={image} alt="">
         </Avatar>
     </div>
 </header>

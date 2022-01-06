@@ -3,10 +3,13 @@
 	import Vertical from "../shared/Vertical.svelte"
 	import Nav from "./Nav.svelte"
 	import MainContent from "./MainContent.svelte";
+	import {user} from "../stores"
 
 	export let active
 
 	let activeHome = active
+
+	// console.log($user)
 </script>
 
 <div class="main">

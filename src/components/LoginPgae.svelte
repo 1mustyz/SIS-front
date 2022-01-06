@@ -2,20 +2,23 @@
     import FaRegUser from 'svelte-icons/fa/FaRegUser.svelte'
     import { TextField } from "smelte";
     import {Button,Icon} from "smelte";
+	import router from "page"
+    import { user } from '../stores';
+    
 
-    let fields = {idNumber: "", password: ""}
-    let errors = {idNumber: "", password: ""}
+    let fields = {username: "", password: ""}
+    let errors = {username: "", password: ""}
     let valid = false
 
-    const submitHandler = () => {
+    const submitHandler = async () => {
         valid = true
 
       
-        if(fields.idNumber.trim().length < 1){
+        if(fields.username.trim().length < 1){
             valid = false
-            errors.idNumber = 'id number A must not be empty'
+            errors.username = 'id number A must not be empty'
         }else{
-            errors.idNumber = ''
+            errors.username = ''
         }
 
         if(fields.password.trim().length < 1){
@@ -26,14 +29,35 @@
         }
 
         if(valid){
-            // let poll = {...fields, votesA: 0, votesB: 0, id: Math.random()}
 
-            // PollStore.update(currentPolls => {
-            //     return [poll, ...currentPolls]
-            // })
-            // dispatch('add', poll)
+            try {
 
-            console.log(fields,errors)
+                const data = {username:fields.username, password:fields.password}
+            const rawResponse = await fetch('https://smart-identificatio.herokuapp.com/admin/login', {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+            });
+            const content = await rawResponse.json(data);
+
+            console.log(content)
+            if(content.success == true){
+
+                user.set(content)
+                router.redirect('/')
+            }
+            else {
+            console.log('incorrect username or password')
+
+            }
+                
+            } catch (error) {
+                console.log(error)
+            }
+            
         }
     }
 
@@ -48,7 +72,7 @@
     </div>
 
     <form action="" class="login" >
-        <TextField label="ID NO." outlined hint="ID NO." bind:value={fields.idNumber} />
+        <TextField label="ID NO." outlined hint="ID NO." bind:value={fields.username} />
         <TextField label="Password" outlined hint="Password" bind:value={fields.password} />
     </form>
 
