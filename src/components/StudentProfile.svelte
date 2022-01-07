@@ -4,12 +4,15 @@
     import {Button,Icon,ProgressLinear} from "smelte";
     import Avatar from "../shared/Avatar.svelte";
 	import { onMount } from 'svelte';
+	import SpinnerLoader from "../shared/loader/SpinnerLoader.svelte";
+
     
     import QRCode from "../shared/QRJS.svelte"
 
     // loader code progress
     let progress = 0;
     let load = false
+    let wait = false
 
     function next() {
         setTimeout(() => {
@@ -43,6 +46,7 @@
         let res = await response.json()
         data = res.message
         console.log(data)
+        wait = true
     } catch (error) {
         console.log(error)
     }
@@ -104,7 +108,9 @@
  
 </script>
 
-	{#if fields.active}
+    {#if !wait}
+        <p class="waiting"><SpinnerLoader /></p>
+	{:else if fields.active && wait}
 	
     <div class="align">
 
@@ -182,7 +188,7 @@
         </div>
     </div>
 
-    {:else}
+    {:else if !fields.active && wait}
         <h2 class="not-active">UPS!! YOUR PROFILE IS DEACTIVATED</h2>
 
     {/if}
@@ -259,4 +265,12 @@
     .loader {
         width: 100%;
     }
+    .waiting {
+		width: 30%;
+		margin: auto;
+		margin-left: 40rem;
+		border-radius: 10px;
+		margin-top: 10rem;
+		
+	}
 </style>
