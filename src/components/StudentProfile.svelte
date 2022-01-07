@@ -15,7 +15,7 @@
 
     console.log(data)
     
-    $: fields = {firstName:data.firstName, surname:data.lastName, otherName:data.otherName, username:data.username, gender:data.gender, department:data.department, faculty:data.faculty, state:data.state, level:data.level}
+    $: fields = {firstName:data.firstName, surname:data.lastName, otherName:data.otherName, username:data.username, gender:data.gender, department:data.department, faculty:data.faculty, state:data.state, level:data.level, active:data.active}
     let image = ''
    
 
@@ -84,7 +84,7 @@
  
 </script>
 
-	
+	{#if fields.active}
 	
     <div class="align">
 
@@ -157,6 +157,10 @@
         </div>
     </div>
 
+    {:else}
+        <h2 class="not-active">UPS!! YOUR PROFILE IS DEACTIVATED</h2>
+
+    {/if}
 <style>
     
 
@@ -215,5 +219,16 @@
         text-align: center;
         margin-bottom: 0.5rem;
         padding: 0.5rem;
+    }
+
+    .not-active {
+        margin: auto;
+        width: 40%;
+        margin-top: 4rem;
+        background-color: orangered;
+        color: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        text-align: center;
     }
 </style>

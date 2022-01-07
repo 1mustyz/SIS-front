@@ -4,7 +4,15 @@
     import {Button,Icon} from "smelte";
 	import router from "page"
     import { user } from '../stores';
+    import {Snackbar,notifier, Notifications, } from "smelte";
+
+    let showSnackbar = false;
+    let showSnackbarTop = false;
+    let showSnackbarBottomLeft = false;
+
     
+    let message = "";
+        
 
     let fields = {username: "", password: ""}
     let errors = {username: "", password: ""}
@@ -51,11 +59,15 @@
             }
             else {
             console.log('incorrect username or password')
-
+                message = "incorrect username or password"
+                showSnackbarTop = true
             }
                 
             } catch (error) {
                 console.log(error)
+                message = error
+                showSnackbarTop = true
+
             }
             
         }
@@ -85,7 +97,16 @@
         <Button color="primary" dark block on:click={submitHandler}>Log In</Button>
     </div>
 </div>
-
+<Snackbar
+  noAction
+  color="error"
+  timeout={5000}
+  top
+  bind:value={showSnackbarTop}>
+  <div>{message}!</div>
+  <div slot="action" />
+</Snackbar>
+ 
 <style>
     .main {
         width: 30%;

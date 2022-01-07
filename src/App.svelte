@@ -7,13 +7,22 @@
 	import AddStudent from "./components/AddStudent.svelte";
 	import StaffProfile from "./components/StaffProfile.svelte";
 	import StudentProfile from "./components/StudentProfile.svelte";
+	import { user } from "./stores";
 	
 	
 	let page, params
 
-	router('/', () => page = Home)
+	router('/', () => {
+		if($user == null){
+			router.redirect('/login')
+		} 
+		page = Home
+	})
 	router('/view-student', () => page = ViewStudent)
-	router('/login', () => page = LoginPage)
+	router('/login', () => {
+		user.set(null)
+		page = LoginPage
+	})
 	router('/add-student', () => page = AddStudent)
 	router('/staff-profile', () => page = StaffProfile)
 	router('/student-profile/:username',

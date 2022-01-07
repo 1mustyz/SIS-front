@@ -5,7 +5,14 @@
 	import MainContent from "./MainContent.svelte";
     import { TextField } from "smelte";
     import {Button,Icon} from "smelte";
+    import {Snackbar,notifier, Notifications, } from "smelte";
 
+    let showSnackbar = false;
+    let showSnackbarTop = false;
+    let showSnackbarBottomLeft = false;
+
+    
+    let message = "";
     export let active
 
 	let activeAddStudent = active
@@ -131,18 +138,25 @@ console.log('hello')
 
             console.log(content)
             if(content.success == true){
-
+                message = "student added"
+                showSnackbar = true
                
+            }else{
+                message = "Email already exist"
+                showSnackbarTop = true
             }
-            else {
-            console.log('incorrect username or password')
-
-            }
+            
                 
             } catch (error) {
                 console.log(error)
+                message = error
+                showSnackbarTop = true
             }
             
+        }else{
+
+            message = "You left a required filled empty"
+            showSnackbarTop = true
         }
     }
 </script>
@@ -234,7 +248,14 @@ console.log('hello')
     </div>
 </div>
 
-
+<Snackbar noAction color="error" timeout={5000} top bind:value={showSnackbarTop}>
+  <div>{message}!</div>
+  <div slot="action" />
+</Snackbar>
+<Snackbar noAction color="success" timeout={5000}  bind:value={showSnackbar}>
+    <div>{message}!</div>
+    <div slot="action" />
+  </Snackbar>
 <style>
     .main {
 		display: flex;
