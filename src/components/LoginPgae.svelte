@@ -41,7 +41,7 @@
 
             try {
 
-                const data = {username:fields.username, password:fields.password}
+            const data = {username:fields.username, password:fields.password}
             const rawResponse = await fetch('https://smart-identificatio.herokuapp.com/admin/login', {
             method: 'POST',
             headers: {
@@ -116,7 +116,7 @@
     noAction
     color="error"
     timeout={5000}
-    right
+    top
     bind:value={showSnackbarTop}>
     <div>{message}!</div>
     <div slot="action" />

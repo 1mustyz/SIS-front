@@ -130,6 +130,7 @@ console.log('hello')
              try {
 
             console.log(fields)    
+           fields.username = fields.username.toLowerCase()
             const rawResponse = await fetch('https://smart-identificatio.herokuapp.com/admin/register', {
             method: 'POST',
             headers: {
@@ -268,7 +269,7 @@ console.log('hello')
   <div>{message}!</div>
   <div slot="action" />
 </Snackbar>
-<Snackbar noAction color="success" timeout={5000}  bind:value={showSnackbar}>
+<Snackbar noAction color="success" timeout={5000} top bind:value={showSnackbar}>
     <div>{message}!</div>
     <div slot="action" />
   </Snackbar>

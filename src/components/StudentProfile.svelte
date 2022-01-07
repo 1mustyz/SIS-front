@@ -1,10 +1,12 @@
 <script>
 	
     import { TextField } from "smelte";
-    import {Button,Icon,ProgressLinear} from "smelte";
+    import {Button,Icon,ProgressLinear,Dialog} from "smelte";
     import Avatar from "../shared/Avatar.svelte";
 	import { onMount } from 'svelte';
 	import SpinnerLoader from "../shared/loader/SpinnerLoader.svelte";
+    import FacebookLoader from "../shared/loader/FacebookLoader.svelte"
+
 
     
     import QRCode from "../shared/QRJS.svelte"
@@ -28,6 +30,12 @@
     // next();
     // ends here
 
+    let showDialog = true;
+    let dialogError = false
+    let authComplete = true
+
+
+
     export let params
     $: data = []
     const username = params.username.split('-').join('/')
@@ -36,8 +44,49 @@
     console.log(data)
     
     $: fields = {firstName:data.firstName, surname:data.lastName, otherName:data.otherName, username:data.username, gender:data.gender, department:data.department, faculty:data.faculty, state:data.state, level:data.level, active:data.active}
+    let auth = {username:"", password:""}
     let image = ''
    
+    const authentication = async () => {
+        authComplete = false
+        console.log(auth)
+        if (auth.username.toLowerCase() == username.toLowerCase()){
+            try {
+
+            const data = {username:auth.username.toLowerCase(), password:auth.password}
+            const rawResponse = await fetch('https://smart-identificatio.herokuapp.com/admin/login', {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+            });
+            const content = await rawResponse.json(data);
+
+            console.log(content)
+            if(content.success == true){
+
+               showDialog = false
+               authComplete = true
+            }
+            else {
+            console.log('incorrect username or password')
+               dialogError = true
+               authComplete = true
+            }
+                
+            } catch (error) {
+                console.log(error)
+                dialogError = true
+                authComplete = true
+                
+            }
+        }else{
+            dialogError = true
+            authComplete = true
+        }
+    }
 
 
     onMount(async () => {
@@ -181,6 +230,7 @@
         </form>
 
         
+       
         <div class="qr">
             <h4>Scan me</h4>
             <QRCode codeValue={secret} squareSize=200/>
@@ -192,15 +242,43 @@
         <h2 class="not-active">UPS!! YOUR PROFILE IS DEACTIVATED</h2>
 
     {/if}
+
+    <Dialog bind:value={showDialog} persistent>
+        <h5 slot="title">Please Verify</h5>
+        {#if dialogError}
+            <p class="error">User Authentication Failed </p>
+        {/if}
+        <form action="" class="login" >
+            <TextField label="ID NO." outlined hint="ID NO." bind:value={auth.username} />
+            <TextField label="Password" outlined hint="Password" type="password" bind:value={auth.password} />
+        </form>
+
+        <div slot="actions">
+            <Button text disabled>Disagree</Button>
+          <Button color="primary" dark block disabled={!authComplete} on:click={authentication}>
+            {#if !authComplete}
+            <div class="wait-loader">
+                <FacebookLoader />
+            </div>
+            {:else}
+            AUTHENTICATE 
+            {/if}
+        </Button>
+        </div>
+      </Dialog>
+      
+     
 <style>
     
 
     .align {
 		max-width: 100vw;
         display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		background-color: #F7FAFF;
         justify-content: space-between;
+        align-items: center;
+
         padding: 7rem;
 	}
 
@@ -211,7 +289,7 @@
         flex-wrap: wrap;
         column-gap: 1rem;
         padding: 2rem;
-        width: 60%;
+        width: 100%;
         /* margin-left: 2rem;
         margin-right: 2.3rem; */
         border-radius: 10px;
@@ -270,7 +348,19 @@
 		margin: auto;
 		margin-left: 40rem;
 		border-radius: 10px;
-		margin-top: 10rem;
+		margin-top: 1rem;
 		
 	}
+    .login {
+        width: 100%;
+    }
+
+    .error {
+        width: 100%;
+        color: red;
+    }
+
+    .wait-loader {
+        min-width: 100%;
+    }
 </style>
