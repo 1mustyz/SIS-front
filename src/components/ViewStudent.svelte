@@ -6,6 +6,7 @@
 	import Table from "../shared/Table.svelte"
 	import { onMount } from 'svelte';
 	import { students } from "../stores";
+	import SpinnerLoader from "../shared/loader/SpinnerLoader.svelte";
 	export let active
 
 
@@ -28,7 +29,7 @@
         <Header />
 
 		{#await student}
-			<p>...waiting</p>
+			<p class="waiting"><SpinnerLoader /></p>
 		{:then}
         	<Table {student} />
 		{:catch error}
@@ -47,5 +48,14 @@
 
     .align {
 		min-width: 78vw;
+	}
+
+	.waiting {
+		width: 30%;
+		margin: auto;
+		margin-left: 28rem;
+		border-radius: 10px;
+		margin-top: 10rem;
+		
 	}
 </style>

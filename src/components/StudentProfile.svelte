@@ -1,12 +1,29 @@
 <script>
 	
     import { TextField } from "smelte";
-    import {Button,Icon} from "smelte";
+    import {Button,Icon,ProgressLinear} from "smelte";
     import Avatar from "../shared/Avatar.svelte";
 	import { onMount } from 'svelte';
     
     import QRCode from "../shared/QRJS.svelte"
 
+    // loader code progress
+    let progress = 0;
+    let load = false
+
+    function next() {
+        setTimeout(() => {
+        if (progress === 100) {
+            progress = 0;
+        }
+
+        progress += 1;
+        next();
+        }, 100);
+    }
+
+    // next();
+    // ends here
 
     export let params
     $: data = []
@@ -49,6 +66,8 @@
   let  avatar, fileinput;
 	
 	const onFileSelected =(e)=>{
+            load = true
+            next()
             let img = e.target.files[0];
             let reader = new FileReader();
             reader.readAsDataURL(img);
@@ -71,6 +90,7 @@
                 try {
                     
                     image = 'https://smart-identificatio.herokuapp.com/' + result.message.image.split('/').splice(1).join('/')
+                    load = false
                 } catch (error) {
                     console.log(error)
                 }
@@ -93,7 +113,12 @@
                 <img class="img-avat" src={image} alt="">
             </Avatar>
             <TextField  outlined type="file" on:change={(e)=>onFileSelected(e)} bind:this={fileinput} />
-
+                {#if load}    
+                <div class="loader">
+                    <small class="mb-3">{progress}%</small>
+                    <ProgressLinear {progress} />
+                </div>
+                {/if}
 
         </div>
 
@@ -230,5 +255,8 @@
         border-radius: 1rem;
         padding: 2rem;
         text-align: center;
+    }
+    .loader {
+        width: 100%;
     }
 </style>

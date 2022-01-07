@@ -3,11 +3,30 @@
 	import Vertical from "../shared/Vertical.svelte"
 	import Nav from "./Nav.svelte"
 	import MainContent from "./MainContent.svelte";
-    import { TextField } from "smelte";
+    import { TextField,ProgressLinear } from "smelte";
     import {Button,Icon} from "smelte";
     import Avatar from "../shared/Avatar.svelte";
 
     import {user} from "../stores"
+
+    // loader code progress
+    let progress = 0;
+    let load = false
+
+    function next() {
+        setTimeout(() => {
+        if (progress === 100) {
+            progress = 0;
+        }
+
+        progress += 1;
+        next();
+        }, 100);
+    }
+
+    // next();
+    // ends here
+
 
     let image
     let fields = {firstName:'', surname:'', otherName:'', lastName:'', email:'', phone:'', role:''}
@@ -31,6 +50,8 @@
     let  avatar, fileinput;
 	
 	const onFileSelected =(e)=>{
+            load = true
+            next()
             let img = e.target.files[0];
             let reader = new FileReader();
             reader.readAsDataURL(img);
@@ -54,6 +75,7 @@
                 try {
                     
                     image = 'https://smart-identificatio.herokuapp.com/' + result.message.image.split('/').splice(1).join('/')
+                    load = false
                 } catch (error) {
                     console.log(error)
                 }
@@ -79,7 +101,13 @@
                 <img class="img-avat" src={image} alt="">
             </Avatar>
             <TextField  outlined type="file" on:change={(e)=>onFileSelected(e)} bind:this={fileinput} />
-
+             
+            {#if load}    
+            <div class="loader">
+                <small class="mb-3">{progress}%</small>
+                <ProgressLinear {progress} />
+            </div>
+            {/if}
 
         </div>
 
@@ -172,5 +200,8 @@
         margin-bottom: 2rem;
         background-color: white;
         border-radius: 10px;
+    }
+    .loader {
+        width: 100%;
     }
 </style>

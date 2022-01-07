@@ -5,7 +5,7 @@
 	import router from "page"
     import { user } from '../stores';
     import {Snackbar,notifier, Notifications, } from "smelte";
-    import FacebookLoader from "../shared/FacebookLoader.svelte"
+    import FacebookLoader from "../shared/loader/FacebookLoader.svelte"
 
     let showSnackbar = false;
     let showSnackbarTop = false;

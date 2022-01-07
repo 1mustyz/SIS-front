@@ -6,7 +6,7 @@
     import { TextField } from "smelte";
     import {Button,Icon} from "smelte";
     import {Snackbar,notifier, Notifications, } from "smelte";
-    import FacebookLoader from "../shared/FacebookLoader.svelte"
+    import FacebookLoader from "../shared/loader/FacebookLoader.svelte"
 
     let showSnackbar = false;
     let showSnackbarTop = false;
