@@ -12,18 +12,57 @@
     let image
     let fields = {firstName:'', surname:'', otherName:'', lastName:'', email:'', phone:'', role:''}
     if($user != null){
+        try {
+            image = 'https://smart-identificatio.herokuapp.com/' + $user.image.split('/').splice(1).join('/')
+            console.log(image)
+        } catch (error) {
+            console.log(error)
+            
+        }
+       
 
-        const img = 'https://smart-identificatio.herokuapp.com/' + $user.newUser.image.split('/').splice(1).join('/')
-        image = img
-        console.log(image)
-
-        fields = {firstName:$user.newUser.firstName, lastName:$user.newUser.lastName, otherName:$user.newUser.otherName, username:$user.newUser.username, email:$user.newUser.email, phone:$user.newUser.phone, role:$user.newUser.role}
+        fields = {firstName:$user.firstName, lastName:$user.lastName, otherName:$user.otherName, username:$user.username, email:$user.email, phone:$user.phone, role:$user.role}
     }
 
     export let active
 
     let activeProfile = active
 
+    let  avatar, fileinput;
+	
+	const onFileSelected =(e)=>{
+            let img = e.target.files[0];
+            let reader = new FileReader();
+            reader.readAsDataURL(img);
+            reader.onload = e => {
+                 avatar = e.target.result
+            };
+            console.log(avatar)
+            const formData = new FormData();
+
+            formData.append('profile_pic', img);
+
+            fetch(`https://smart-identificatio.herokuapp.com/admin/set-profile-pic?username=${fields.username}`, {
+            method: 'PUT',
+            body: formData
+            })
+            .then(response => response.json())
+            .then(result => {
+            console.log('Success:', result);
+                user.set(result.message)
+
+                try {
+                    
+                    image = 'https://smart-identificatio.herokuapp.com/' + result.message.image.split('/').splice(1).join('/')
+                } catch (error) {
+                    console.log(error)
+                }
+            })
+            .catch(error => {
+            console.error('Error:', error);
+            });
+}
+	 
     
 </script>
 
@@ -39,8 +78,7 @@
             <Avatar type="medium">
                 <img class="img-avat" src={image} alt="">
             </Avatar>
-            <TextField  outlined type="file"  />
-            <Button color="primary" light flat >set</Button>
+            <TextField  outlined type="file" on:change={(e)=>onFileSelected(e)} bind:this={fileinput} />
 
 
         </div>

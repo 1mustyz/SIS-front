@@ -9,9 +9,16 @@
     let image
     if($user != null){
 
-        const img = 'https://smart-identificatio.herokuapp.com/' + $user.newUser.image.split('/').splice(1).join('/')
-        image = img
-        console.log(image)
+        try {
+            const img = 'https://smart-identificatio.herokuapp.com/' + $user.newUser.image.split('/').splice(1).join('/')
+            image = img
+            console.log(image)
+        } catch (error) {
+            console.log(console.log(error))
+            
+        }
+
+       
     }
 </script>
 

@@ -21,10 +21,15 @@
 
 
     onMount(async () => {
-    const response = await fetch(`https://smart-identificatio.herokuapp.com/admin/get-single-student/?username=${username}`)
-    let res = await response.json()
-    data = res.message
-    console.log(data)
+    try {
+        const response = await fetch(`https://smart-identificatio.herokuapp.com/admin/get-single-student/?username=${username}`)
+        let res = await response.json()
+        data = res.message
+        console.log(data)
+    } catch (error) {
+        console.log(error)
+    }
+   
     try {
         
         image = 'https://smart-identificatio.herokuapp.com/' + data.image.split('/').splice(1).join('/')
@@ -34,6 +39,49 @@
 
     console.log(image)
   })
+
+  const printId = () => {
+    console.log('printing')
+      
+    window.print()
+  }
+
+  let  avatar, fileinput;
+	
+	const onFileSelected =(e)=>{
+            let img = e.target.files[0];
+            let reader = new FileReader();
+            reader.readAsDataURL(img);
+            reader.onload = e => {
+                 avatar = e.target.result
+            };
+            console.log(avatar)
+            const formData = new FormData();
+
+            formData.append('profile_pic', img);
+
+            fetch(`https://smart-identificatio.herokuapp.com/admin/set-profile-pic?username=${data.username}`, {
+            method: 'PUT',
+            body: formData
+            })
+            .then(response => response.json())
+            .then(result => {
+            console.log('Success:', result);
+                data = result.message
+                try {
+                    
+                    image = 'https://smart-identificatio.herokuapp.com/' + result.message.image.split('/').splice(1).join('/')
+                } catch (error) {
+                    console.log(error)
+                }
+            })
+            .catch(error => {
+            console.error('Error:', error);
+            });
+}
+	
+
+ 
 </script>
 
 	
@@ -44,8 +92,7 @@
             <Avatar type="medium">
                 <img class="img-avat" src={image} alt="">
             </Avatar>
-            <TextField  outlined type="file"  />
-            <Button color="primary" light flat >set</Button>
+            <TextField  outlined type="file" on:change={(e)=>onFileSelected(e)} bind:this={fileinput} />
 
 
         </div>
@@ -98,7 +145,7 @@
 
             <div>
 
-                <Button color="primary" dark block >Print ID</Button>
+                <Button color="primary" dark block on:click={()=> printId()}>Print ID</Button>
             </div>
         </form>
 

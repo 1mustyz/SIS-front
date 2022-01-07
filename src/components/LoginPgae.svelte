@@ -46,7 +46,7 @@
             console.log(content)
             if(content.success == true){
 
-                user.set(content)
+                user.set(content.newUser)
                 router.redirect('/')
             }
             else {
