@@ -6,6 +6,7 @@
     import { TextField } from "smelte";
     import {Button,Icon} from "smelte";
     import {Snackbar,notifier, Notifications, } from "smelte";
+    import FacebookLoader from "../shared/FacebookLoader.svelte"
 
     let showSnackbar = false;
     let showSnackbarTop = false;
@@ -15,6 +16,8 @@
     let message = "";
     export let active
 
+    let load = false
+
 	let activeAddStudent = active
 
     let fields = {firstName:"", lastName:"", otherName:"", username:"", gender:"", department:"", faculty:"", state:"", level:"", email:"", phone:"", course:"", address:"", role:"student", dob:""}
@@ -23,6 +26,7 @@
 
     const submitHandler = async () => {
         valid = true
+        load = true
 console.log('hello')
        
         if(fields.firstName.trim().length < 1){
@@ -140,10 +144,12 @@ console.log('hello')
             if(content.success == true){
                 message = "student added"
                 showSnackbar = true
+                load = false
                
             }else{
                 message = "Email already exist"
                 showSnackbarTop = true
+                load = false
             }
             
                 
@@ -151,12 +157,14 @@ console.log('hello')
                 console.log(error)
                 message = error
                 showSnackbarTop = true
+                load = false
             }
             
         }else{
 
             message = "You left a required filled empty"
             showSnackbarTop = true
+            load = false
         }
     }
 </script>
@@ -242,7 +250,15 @@ console.log('hello')
             
             <div>
 
-                <Button color="primary" dark block on:click={submitHandler}>ADD STUDENT</Button>
+                <Button color="primary" dark block disabled={load} on:click={submitHandler}>
+                    {#if load}
+                    <div class="loader">
+                        <FacebookLoader />
+                    </div>
+                    {:else}
+                    ADD STUDENT 
+                    {/if}
+                </Button>
             </div>
         </form>
     </div>
