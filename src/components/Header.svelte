@@ -10,7 +10,7 @@
     if($user != null){
 
         try {
-            const img = 'https://smart-identificatio.herokuapp.com/' + $user.newUser.image.split('/').splice(1).join('/')
+            const img = 'https://smart-id.fly.dev/' + $user.newUser.image.split('/').splice(1).join('/')
             image = img
             console.log(image)
         } catch (error) {

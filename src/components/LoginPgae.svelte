@@ -42,7 +42,7 @@
             try {
 
             const data = {username:fields.username, password:fields.password}
-            const rawResponse = await fetch('https://smart-identificatio.herokuapp.com/admin/login', {
+            const rawResponse = await fetch('https://smart-id.fly.dev/admin/login', {
             method: 'POST',
             headers: {
             'Accept': 'application/json',

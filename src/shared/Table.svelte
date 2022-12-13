@@ -12,7 +12,7 @@
 
       try {
 
-      const rawResponse = await fetch('https://smart-identificatio.herokuapp.com/admin/activate-deactivate-student', {
+      const rawResponse = await fetch('https://smart-id.fly.dev/admin/activate-deactivate-student', {
       method: 'PUT',
       headers: {
       'Accept': 'application/json',
@@ -25,7 +25,7 @@
       if(content.success == true){
         console.log(content)
         async function getStudent(){
-          const res = await fetch(`https://smart-identificatio.herokuapp.com/admin/get-all-student`);
+          const res = await fetch(`https://smart-id.fly.dev/admin/get-all-student`);
           return student = await res.json();
         }
 	      student = await getStudent()

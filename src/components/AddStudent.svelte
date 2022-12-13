@@ -131,7 +131,7 @@ console.log('hello')
 
             console.log(fields)    
            fields.username = fields.username.toLowerCase()
-            const rawResponse = await fetch('https://smart-identificatio.herokuapp.com/admin/register', {
+            const rawResponse = await fetch('https://smart-id.fly.dev/admin/register', {
             method: 'POST',
             headers: {
             'Accept': 'application/json',

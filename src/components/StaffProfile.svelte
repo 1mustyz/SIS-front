@@ -32,7 +32,7 @@
     let fields = {firstName:'', surname:'', otherName:'', lastName:'', email:'', phone:'', role:''}
     if($user != null){
         try {
-            image = 'https://smart-identificatio.herokuapp.com/' + $user.image.split('/').splice(1).join('/')
+            image = 'https://smart-id.fly.dev/' + $user.image.split('/').splice(1).join('/')
             console.log(image)
         } catch (error) {
             console.log(error)
@@ -63,7 +63,7 @@
 
             formData.append('profile_pic', img);
 
-            fetch(`https://smart-identificatio.herokuapp.com/admin/set-profile-pic?username=${fields.username}`, {
+            fetch(`https://smart-id.fly.dev/admin/set-profile-pic?username=${fields.username}`, {
             method: 'PUT',
             body: formData
             })
@@ -74,7 +74,7 @@
 
                 try {
                     
-                    image = 'https://smart-identificatio.herokuapp.com/' + result.message.image.split('/').splice(1).join('/')
+                    image = 'https://smart-id.fly.dev/' + result.message.image.split('/').splice(1).join('/')
                     load = false
                 } catch (error) {
                     console.log(error)

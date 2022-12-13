@@ -54,7 +54,7 @@
             try {
 
             const data = {username:auth.username.toLowerCase(), password:auth.password}
-            const rawResponse = await fetch('https://smart-identificatio.herokuapp.com/admin/login', {
+            const rawResponse = await fetch('https://smart-id.fly.dev/admin/login', {
             method: 'POST',
             headers: {
             'Accept': 'application/json',
@@ -91,7 +91,7 @@
 
     onMount(async () => {
     try {
-        const response = await fetch(`https://smart-identificatio.herokuapp.com/admin/get-single-student/?username=${username}`)
+        const response = await fetch(`https://smart-id.fly.dev/admin/get-single-student/?username=${username}`)
         let res = await response.json()
         data = res.message
         console.log(data)
@@ -102,7 +102,7 @@
    
     try {
         
-        image = 'https://smart-identificatio.herokuapp.com/' + data.image.split('/').splice(1).join('/')
+        image = 'https://smart-id.fly.dev/' + data.image.split('/').splice(1).join('/')
     } catch (error) {
         console.log(error)
     }
@@ -132,7 +132,7 @@
 
             formData.append('profile_pic', img);
 
-            fetch(`https://smart-identificatio.herokuapp.com/admin/set-profile-pic?username=${data.username}`, {
+            fetch(`https://smart-id.fly.dev/admin/set-profile-pic?username=${data.username}`, {
             method: 'PUT',
             body: formData
             })
@@ -142,7 +142,7 @@
                 data = result.message
                 try {
                     
-                    image = 'https://smart-identificatio.herokuapp.com/' + result.message.image.split('/').splice(1).join('/')
+                    image = 'https://smart-id.fly.dev/' + result.message.image.split('/').splice(1).join('/')
                     load = false
                 } catch (error) {
                     console.log(error)
